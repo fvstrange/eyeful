@@ -1,10 +1,13 @@
 package com.fvstrange.eyeful.core;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -21,10 +24,19 @@ public class MainRetrofit
     MainRetrofit()
     {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger()
+        {
+            @Override
+            public void log(String message)
+            {
+                Log.e("okhttp", message);
+            }
+        });
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.connectTimeout(15, TimeUnit.SECONDS);//连接超时时间
         builder.readTimeout(20, TimeUnit.SECONDS);//读取超时时间
         Retrofit retrofit = new Retrofit.Builder()
-                .client(builder.build())
+                .client(builder.addInterceptor(logInterceptor).build())
                 .baseUrl(MainFactory.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

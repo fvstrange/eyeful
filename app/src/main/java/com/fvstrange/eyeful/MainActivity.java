@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity
                 text.setText("ni hao");
             }
         });
+        String s1="1";
+        String s2="2";
+
     }
 
 

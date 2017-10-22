@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:padding="10dp"
               android:layout_width="match_parent"
-              android:layout_height="180dp">
+              android:layout_height="180dp"
+              android:background="@drawable/bg_simple">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/icon_image"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_menu"
-            android:layout_centerInParent="true"/>
+            android:src="@drawable/ic_yangtuo"
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/icon_image"
             android:text="妹 纸"
-            android:textSize="14sp"/>
+            android:textSize="24sp"
+            android:layout_gravity="bottom|center"/>
 
-</RelativeLayout>
+</FrameLayout>

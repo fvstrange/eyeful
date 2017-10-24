@@ -144,10 +144,10 @@ public class GirlListPresenter extends BasePresenter
                         if (girls.isEmpty()) {
                             mContext.hasNoMoreData();
                         } else if (girls.size() < PAGE_SIZE) {
-                            mContext.appendMoreDataToView(girls);
+                            mContext.appendMoreDataToView(girls,(mCurrentPage-1)*10,girls.size());
                             mContext.hasNoMoreData();
                         } else if (girls.size() == PAGE_SIZE) {
-                            mContext.appendMoreDataToView(girls);
+                            mContext.appendMoreDataToView(girls,(mCurrentPage-1)*10,girls.size());
                             mCurrentPage++;
                         }
                         mContext.getDataFinish();

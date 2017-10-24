@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -74,7 +75,7 @@ public class GirlListActivity extends BaseActivity
             @Override
             public void onClick(View view)
             {
-
+                mRecyclerView.smoothScrollToPosition(0);
             }
         });
 
@@ -118,6 +119,8 @@ public class GirlListActivity extends BaseActivity
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter=new GirlListAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
+        //取消RecyclerView动画效果。
+        ((SimpleItemAnimator)mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
@@ -198,8 +201,8 @@ public class GirlListActivity extends BaseActivity
         mPresenter.refillData();
     }
 
-    public void appendMoreDataToView(List<Girl> data) {
-        mAdapter.update(data);
+    public void appendMoreDataToView(List<Girl> data,int currentQuantity,int newQuantity) {
+        mAdapter.update(data,currentQuantity,newQuantity);
     }
 
     public void fillData(List<Girl> data) {

@@ -10,11 +10,9 @@ public class MainFactory
 
     private static DataService mService;
 
-    protected static final Object monitor = new Object();
-
     public static DataService getDataServiceInstance()
     {
-        synchronized (monitor)
+        synchronized (MainFactory.class)
         {
             if(mService==null)
                 mService=new MainRetrofit().getService();

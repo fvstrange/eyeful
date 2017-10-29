@@ -1,5 +1,6 @@
 package com.fvstrange.eyeful.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -29,9 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GirlListActivity extends BaseActivity
+public class GirlListActivity extends BaseActivity implements GirlListAdapter.IClickItem
 {
-
     private GirlListAdapter mAdapter;
     private GirlListPresenter mPresenter;
     private boolean mHasMoreData = true;
@@ -61,6 +61,24 @@ public class GirlListActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.girl_list_layout);
         ButterKnife.bind(this);
+        initToolbar();
+        initSwipeRefreshLayout();
+        initPresenter();
+        initRecyclerView();
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mRecyclerView.smoothScrollToPosition(0);
+            }
+        });
+    }
+    /*
+     * 初始化Toolbar,设置导航按钮。
+     */
+    private void initToolbar()
+    {
         toolbar.setTitle("Girls");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -70,18 +88,6 @@ public class GirlListActivity extends BaseActivity
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                mRecyclerView.smoothScrollToPosition(0);
-            }
-        });
-
-        initSwipeRefreshLayout();
-        initPresenter();
-        initRecyclerView();
     }
 
     /*
@@ -105,7 +111,7 @@ public class GirlListActivity extends BaseActivity
 
     private void initPresenter()
     {
-        mPresenter=new GirlListPresenter(this);
+        mPresenter = new GirlListPresenter(this);
     }
 
     /*
@@ -115,12 +121,13 @@ public class GirlListActivity extends BaseActivity
      */
     private void initRecyclerView()
     {
-        final StaggeredGridLayoutManager layoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter=new GirlListAdapter(this);
+        mAdapter = new GirlListAdapter(this);
+        mAdapter.setIClickItem(this);
         mRecyclerView.setAdapter(mAdapter);
         //取消RecyclerView动画效果。
-        ((SimpleItemAnimator)mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
@@ -131,7 +138,8 @@ public class GirlListActivity extends BaseActivity
                 boolean isBottom =
                         layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1]
                                 >= mAdapter.getItemCount() - 4;
-                if (!mSwipeRefresh.isRefreshing() && isBottom && mHasMoreData) {
+                if (!mSwipeRefresh.isRefreshing() && isBottom && mHasMoreData)
+                {
                     showRefresh();
                     mPresenter.addData();
                 }
@@ -165,10 +173,10 @@ public class GirlListActivity extends BaseActivity
             @Override
             public void run()
             {
-                if(mSwipeRefresh!=null)
+                if (mSwipeRefresh != null)
                     mSwipeRefresh.setRefreshing(false);
             }
-        },1200);
+        }, 1200);
     }
 
     /*
@@ -182,14 +190,18 @@ public class GirlListActivity extends BaseActivity
     /*
      * 判断是否重新加载数据。结果为true时显示刷新图标。
      */
-    public boolean prepareRefresh() {
-        if(mPresenter.shouldRefillGirls()){
+    public boolean prepareRefresh()
+    {
+        if (mPresenter.shouldRefillGirls())
+        {
             mPresenter.resetCurrentPage();
-            if(!isRefreshing()){
+            if (!isRefreshing())
+            {
                 showRefresh();
             }
             return true;
-        }else{
+        } else
+        {
             return false;
         }
     }
@@ -197,26 +209,31 @@ public class GirlListActivity extends BaseActivity
     /*
      * 重新加载数据。
      */
-    public void onRefreshStarted() {
+    public void onRefreshStarted()
+    {
         mPresenter.refillData();
     }
 
-    public void appendMoreDataToView(List<Girl> data,int currentQuantity,int newQuantity) {
-        mAdapter.update(data,currentQuantity,newQuantity);
+    public void appendMoreDataToView(List<Girl> data, int currentQuantity, int newQuantity)
+    {
+        mAdapter.update(data, currentQuantity, newQuantity);
     }
 
-    public void fillData(List<Girl> data) {
+    public void fillData(List<Girl> data)
+    {
         mAdapter.updateWithClear(data);
     }
 
     /*
-     * 没有更多数据的显示提示信息。
+     * 没有更多数据的提示信息。
      */
-    public void showEmptyView() {
-        Toast.makeText(GirlListActivity.this,"妹纸见底了，没有更多了~",Toast.LENGTH_SHORT).show();
+    public void showEmptyView()
+    {
+        Toast.makeText(GirlListActivity.this, "妹纸见底了，没有更多了~", Toast.LENGTH_SHORT).show();
     }
 
-    public void hasNoMoreData() {
+    public void hasNoMoreData()
+    {
         mHasMoreData = false;
         showEmptyView();
     }
@@ -224,14 +241,17 @@ public class GirlListActivity extends BaseActivity
     /*
      * 加载失败显示提示信息。
      */
-    public void showErrorView(Throwable throwable){
+    public void showErrorView(Throwable throwable)
+    {
         throwable.printStackTrace();
 
-        final Snackbar errorSnack = Snackbar.make(mRecyclerView,"加载数据失败，请检查网络，点击重试。"
-                ,Snackbar.LENGTH_INDEFINITE);
-        errorSnack.getView().setOnClickListener(new View.OnClickListener() {
+        final Snackbar errorSnack = Snackbar.make(mRecyclerView, "加载数据失败，请检查网络，点击重试。"
+                , Snackbar.LENGTH_INDEFINITE);
+        errorSnack.getView().setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 errorSnack.dismiss();
                 onRefreshStarted();
             }
@@ -260,5 +280,13 @@ public class GirlListActivity extends BaseActivity
     {
         super.onPostCreate(savedInstanceState);
         mPresenter.refillData();
+    }
+
+    @Override
+    public void onClickPhoto(int position)
+    {
+        Intent intent=new Intent(GirlListActivity.this, GirlDetailActivity.class);
+        intent.putExtra("extra_position",position);
+        startActivity(intent);
     }
 }

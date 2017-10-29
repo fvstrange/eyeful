@@ -27,7 +27,7 @@ public class LogUtil
     {
         if(level<=VERBOSE)
         {
-            Log.v(tag,msg);
+            Log.v(tag, msg);
         }
     }
 
@@ -35,7 +35,7 @@ public class LogUtil
     {
         if(level<=DEBUG)
         {
-            Log.d(tag,msg);
+            Log.d(tag, msg);
         }
     }
 
@@ -43,7 +43,7 @@ public class LogUtil
     {
         if(level<=INFO)
         {
-            Log.i(tag,msg);
+            Log.i(tag, msg);
         }
     }
 
@@ -51,7 +51,7 @@ public class LogUtil
     {
         if(level<=WARN)
         {
-            Log.w(tag,msg);
+            Log.w(tag, msg);
         }
     }
 
@@ -59,7 +59,7 @@ public class LogUtil
     {
         if(level<=ERROR)
         {
-            Log.e(tag,msg);
+            Log.e(tag, msg);
         }
     }
 }

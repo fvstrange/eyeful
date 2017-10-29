@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.fvstrange.eyeful"
         minSdkVersion 15
@@ -29,6 +29,9 @@ dependencies {
     configurations.all {
         resolutionStrategy.force 'com.android.support:support-annotations:25.3.1'
     }
+    //compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'//只支持到rxjava1.XX
+    //支持到rxjava2.X
+    compile 'com.github.githubwing:ByeBurger:1.2.3'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     compile 'com.google.code.gson:gson:2.8.2'
@@ -42,10 +45,10 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.android.support:design:25.3.1'
     compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.github.chrisbanes.photoview:library:+'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
-    //compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'//只支持到rxjava1.XX
-    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'//支持到rxjava2.X
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     compile 'com.jakewharton:butterknife:8.8.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'

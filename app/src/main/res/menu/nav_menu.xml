@@ -3,6 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_about"
-            android:title="关于" />
+            android:icon="@drawable/ic_nothing"
+            android:title="这里什么也没有到别处看看吧~" />
     </group>
 </menu>

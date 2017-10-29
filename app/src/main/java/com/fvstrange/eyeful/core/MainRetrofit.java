@@ -2,6 +2,7 @@ package com.fvstrange.eyeful.core;
 
 import android.util.Log;
 
+import com.fvstrange.eyeful.util.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -29,7 +30,7 @@ public class MainRetrofit
             @Override
             public void log(String message)
             {
-                Log.e("okhttp", message);
+                //LogUtil.e("okhttp", message);
             }
         });
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

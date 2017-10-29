@@ -1,6 +1,5 @@
 package com.fvstrange.eyeful.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.fvstrange.eyeful.R;
 import com.fvstrange.eyeful.data.Girl;
-import com.fvstrange.eyeful.util.DataUtil;
-import com.fvstrange.eyeful.util.LogUtil;
+import com.fvstrange.eyeful.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,9 +29,10 @@ import butterknife.ButterKnife;
 public class GirlListAdapter extends RecyclerView.Adapter<GirlListAdapter.ViewHolder>
 {
     private List<Girl> mGirlList;
-    Context mContext;
+    private Context mContext;
     private static int SCREE_WIDTH = 0;
-    HashMap imageHeightMap;
+    private HashMap imageHeightMap;
+    private IClickItem mIClickItem;
 
     public GirlListAdapter(Context context)
     {
@@ -41,6 +40,10 @@ public class GirlListAdapter extends RecyclerView.Adapter<GirlListAdapter.ViewHo
         mGirlList=new ArrayList<>();
         SCREE_WIDTH = mContext.getResources().getDisplayMetrics().widthPixels;
         imageHeightMap=new HashMap();
+    }
+
+    public void setIClickItem(IClickItem IClickItem) {
+        mIClickItem = IClickItem;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class GirlListAdapter extends RecyclerView.Adapter<GirlListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position)
+    public void onBindViewHolder(ViewHolder holder, final int position)
     {
         ViewGroup.LayoutParams param=holder.girlImage.getLayoutParams();
         if(!imageHeightMap.containsKey(position))
@@ -77,18 +80,21 @@ public class GirlListAdapter extends RecyclerView.Adapter<GirlListAdapter.ViewHo
                 .load(girl.url)
                 //.thumbnail( 0.1f )
                 .into(holder.girlImage);
-        holder.girlDate.setText(DataUtil.toDate(girl.publishedAt));
+        holder.girlDate.setText(DateUtil.toDate(girl.publishedAt));
+        holder.girlImage.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mIClickItem.onClickPhoto(position);
+            }
+        });
     }
 
     @Override
     public int getItemCount()
     {
         return mGirlList.size();
-    }
-
-    public Girl getGirl(int position)
-    {
-        return mGirlList.get(position);
     }
 
     /*
@@ -121,5 +127,9 @@ public class GirlListAdapter extends RecyclerView.Adapter<GirlListAdapter.ViewHo
             super(view);
             ButterKnife.bind(this,view);
         }
+    }
+
+    public interface IClickItem{
+        void onClickPhoto(int position);
     }
 }

@@ -16,7 +16,6 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        LogUtil.d("BaseActivity",getClass().getSimpleName());
         ActivityCollector.addActivity(this);
     }
 
@@ -26,4 +25,6 @@ public class BaseActivity extends AppCompatActivity
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
+
+
 }

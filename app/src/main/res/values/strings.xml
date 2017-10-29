@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Eyeful</string>
+    <string name="bye_burger_bottom_behavior">com.wingsofts.byeburgernavigationview.ByeBurgerBottomBehavior</string>
+    <string name="bye_burger_title_behavior">com.wingsofts.byeburgernavigationview.ByeBurgerTitleBehavior</string>
 </resources>

@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_done" />
+            android:src="@drawable/ic_done"
+            app:layout_behavior="@string/bye_burger_bottom_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>
 
